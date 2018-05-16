@@ -222,6 +222,22 @@ def team_stats(game_id):
     return mlbgame.stats.Stats(data, game_id, False)
 
 
+def pitcher(game_id,player_id):
+    data = mlbgame.stats.pitcher(game_id,player_id)
+    return data
+    
+def gamecenter(game_id):
+    data = mlbgame.game.gamecenter(game_id)
+    return mlbgame.game.GameCenter(data)
+
+def probables_home(game_id):
+    data = mlbgame.stats.game_center_probables_home(game_id)
+    return data
+
+def probables_away(game_id):
+    data = mlbgame.stats.game_center_probables_away(game_id)
+    return data
+
 def game_events(game_id):
     """Return dictionary of game events for game matching the game id."""
     data = mlbgame.events.game_events(game_id)

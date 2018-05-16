@@ -91,6 +91,15 @@ def get_overview(game_id):
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
 
+def get_gamecenter(game_id):
+    """Return the box score file of a game with matching id."""
+    year, month, day = get_date_from_game_id(game_id)
+    try:
+        return urlopen(GAME_URL.format(year, month, day,
+                                       game_id,
+                                       'gamecenter.xml'))
+    except HTTPError:
+        raise ValueError('Could not find a game with that id.')
 
 def get_players(game_id):
     """Return the players file of a game with matching id."""
@@ -130,6 +139,21 @@ def get_standings(date):
         ValueError('Could not find the standings file. '
                    'mlb.com does not provide the file that '
                    'mlbgame needs to perform this operation.')
+
+def get_pitcher(game_id,player_id):
+    """Return the players file of a game with matching id."""
+    year, month, day = get_date_from_game_id(game_id)
+
+    path = "pitchers/"+str(player_id)+".xml"
+    p = GAME_URL.format(year, month, day,
+                                   game_id, path)
+    print p
+    try:
+
+        return urlopen(p)
+
+    except HTTPError:
+        raise ValueError('Could not find a game with that id.')
 
 
 def get_historical_standings(date):

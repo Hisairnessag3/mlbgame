@@ -136,7 +136,54 @@ def __raw_team_stats_info(data, output):
             output['away_additional_batting'] = stats
     return output
 
+def game_center_probables_home(game_id):
+    data = mlbgame.data.get_gamecenter(game_id)
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+    output = {}
 
+    probables = root.find('probables')
+    for p in probables:
+        home = probables.find('home')
+        for obj in home:
+            output[obj.tag] = obj.text
+
+
+    return output
+
+def game_center_probables_away(game_id):
+    data = mlbgame.data.get_gamecenter(game_id)
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+    output = {}
+
+    probables = root.find('probables')
+    for p in probables:
+        home = probables.find('away')
+        for obj in home:
+            output[obj.tag] = obj.text
+
+
+    return output
+
+
+def pitcher(game_id, player_id):
+
+    i = mlbgame.data.get_pitcher(game_id, player_id)
+
+        # parse data
+    parsed = etree.parse(i)
+    root = parsed.getroot()
+    output = {}
+    season = root.find('season')
+
+    for obj in season.attrib:
+        output[obj] = season.attrib[obj]
+
+
+
+    return output
+    
 def team_stats(game_id):
     """Return team stats of a game with matching id.
 
